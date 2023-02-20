@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package go.grpc.example;
+option go_package = "./pb";
+
+service Example {
+  rpc Unary(Request) returns (Response);
+  rpc ServerStream(Request) returns (stream Response);
+  rpc ClientStream(stream Request) returns (Response);
+  rpc BiDirectStream(stream Request) returns (stream Response);
+}
+
+message Request {
+  int64 num = 1;
+}
+
+message Response {
+  int64 num = 3;
+}
