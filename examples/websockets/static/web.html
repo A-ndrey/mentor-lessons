@@ -1,0 +1,31 @@
+<html lang="ru">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>WEBSOCKET-TEST</title>
+    </head>
+    <body style="font-size: xx-large">
+        <button onclick="socket.send('web-socket %)')" style="font-size: xx-large">send</button>
+        <div id="events">
+        </div>
+    <script>
+        let events = document.getElementById("events")
+        let socket = new WebSocket("ws://localhost:8080/echo")
+
+        socket.onopen = function (e) {
+            events.innerHTML += "<p style='color: green'>socket opened</p>"
+        }
+
+        socket.onclose = function (e) {
+            events.innerHTML += "<p style='color: red'>socket closed</p>"
+        }
+
+        socket.onerror = function (e) {
+            events.innerHTML += "<p style='color: yellow'>error</p>"
+        }
+
+        socket.onmessage = function (e) {
+            events.innerHTML += `<p style="color: blue">msg: ${e.data}</p>`
+        }
+    </script>
+    </body>
+</html>

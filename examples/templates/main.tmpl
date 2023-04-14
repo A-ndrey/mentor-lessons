@@ -1,0 +1,58 @@
+Main context {{ . }}
+
+Comment {{/* Just comment */}}
+
+Some fields from main context: {{ .FieldS }}, {{ .FieldI }}, {{ .FieldA }}.
+
+-- Conditions --
+{{ if .FieldBT }} It is the truth {{ end }}
+{{ if .FieldBF }} It is a lie {{ end }}
+
+{{ if .FieldBF }} doesn't view {{ else }} else views {{ end }}
+{{ if .FieldBF }} doesn't view {{ else if .FieldBT }} else if views {{ end }}
+
+{{ if .FieldA }} {{ . }} {{ end }}
+{{ with .FieldA }} {{ . }} {{ end }}
+----------------
+
+-- Loops --
+{{ range .FieldA }} {{ . }} {{ end }}
+
+{{ range .FieldA }}
+val: {{ . }}
+{{ else }}
+empty slice
+{{ end }}
+
+{{ range $idx, $val := .FieldA }}
+idx: {{ $idx }}, val: {{ $val }}
+{{ end }}
+
+{{ range .FieldM }} {{ . }} {{ end }}
+{{ range $key, $val := .FieldM }} {{ $key }} -> {{ $val }}
+{{ end }}
+-----------
+
+Map: {{ .FieldM.a }} {{ .FieldM.c }}
+
+-- Functions --
+sum {{ .Calculator.PositiveSum 1 2 }}
+sum pipe {{ 4 | .Calculator.PositiveSum 3 }}
+last {{ .Calculator.LastToString }}
+
+embedded
+call: {{ call .FieldFunc }}
+index: {{ index .FieldA 1 }}
+slice: {{ slice .FieldA 1 3 }}
+len: {{ len .FieldA }}
+print*: {{ printf "%x" 30 }}
+bool: {{ eq 1 1 }} {{ gt 2 1 }} {{ ne 1 1 }}
+
+custom
+mul: {{ mult 3 4 }}
+
+---------------
+
+{{ template "common" }}
+
+{{ template "common" .FieldM }}
